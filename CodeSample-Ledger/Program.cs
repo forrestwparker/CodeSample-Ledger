@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeSample_Ledger.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,8 @@ namespace CodeSample_Ledger
     {
         static void Main(string[] args)
         {
+            AccountActions.MainMenu();
+            Console.WriteLine("Have a good day!");
         }
     }
 }
