@@ -1,16 +1,20 @@
 ﻿using CodeSample_Ledger.Extensions;
-using System;
 
 namespace CodeSample_Ledger.ConsoleMenu
 {
     public static partial class ConsoleMenu
     {
-        //
-        // User response processing methods.
-        //
+        // Used internally to pass TryParse functions
+        // (eventually) to ProcessUserResponse method.
+        private delegate bool TryParser<T>(string stringValue, out T typedValue);
 
-        // Used internally to pass generic TryParse functions to ProcessUserResponse method below
-        private delegate bool TryParser<T>(string Input, out T Output);
+        // Used as a placeholder for tryParser
+        // when a prompt should return a string.
+        private static bool DummyStringTryParse(string userResponse, out string typedUserResponse)
+        {
+            typedUserResponse = userResponse;
+            return true;
+        }
 
         // Used internally to:
         // - Convert a user response to a prompt into the correct return type; and
@@ -18,31 +22,39 @@ namespace CodeSample_Ledger.ConsoleMenu
         // Returns true if the user response is of correct type and meets all constraints.
         // Returns false otherwise.
         private static bool ProcessUserResponse<T>(
-            string UserResponse, TryParser<T> TryParse, Constraint<T>[] Constraints, out T TypedUserResponse
+            string userResponse,
+            TryParser<T> tryParser,
+            Constraint<T>[] constraints,
+            out T typedUserResponse,
+            out string errorMessage
             )
         {
-            if (!TryParse(UserResponse, out TypedUserResponse)) { return false; }
-            else if (Constraints.IsNullOrEmpty()) { return true; }
-            else
+            // If userResponse cannot be parsed to correct type...
+            if (!tryParser(userResponse, out typedUserResponse))
             {
-                for (int i = 0; i < Constraints.Length; i++)
-                {
-                    if (!Constraints[i](TypedUserResponse)) { return false; }
-                }
+                errorMessage = invalidUserResponseTypeErrorMessage;
+                return false;
+            }
+
+            // If there are no constraints...
+            else if (constraints.IsNullOrEmpty())
+            {
+                errorMessage = null;
                 return true;
             }
-        }
 
-        // Used internally to process int type user responses subject to constraints.
-        private static bool ReturnInt(string UserResponse, Constraint<int>[] Constraints, out int TypedUserResponse)
-        {
-            return ProcessUserResponse(UserResponse, Int32.TryParse, Constraints, out TypedUserResponse);
-        }
-
-        // Used internally to process double type user responses subject to constraints.
-        private static bool ReturnDouble(string UserResponse, Constraint<double>[] Constraints, out double TypedUserResponse)
-        {
-            return ProcessUserResponse(UserResponse, Double.TryParse, Constraints, out TypedUserResponse);
+            // Otherwise, check all constraints (in order).
+            // If one fails, return false and out the errorMessage.
+            // Else, all have passed so return true.
+            else
+            {
+                for (int i = 0; i < constraints.Length; i++)
+                {
+                    if (!constraints[i].CheckConstraint(typedUserResponse, out errorMessage)) { return false; }
+                }
+                errorMessage = null;
+                return true;
+            }
         }
     }
 }

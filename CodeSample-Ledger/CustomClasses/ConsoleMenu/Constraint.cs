@@ -6,7 +6,7 @@ namespace CodeSample_Ledger.ConsoleMenu
     public static partial class ConsoleMenu
     {
         // Used for associating a specific error message with
-        // a collection of conditionals when making a prompt. 
+        // a collection of conditionals when calling a prompt. 
         public struct Constraint<T> {
             public readonly Func<T, bool>[] conditionals;
             public readonly string errorMessage;
@@ -17,7 +17,7 @@ namespace CodeSample_Ledger.ConsoleMenu
                 this.errorMessage = errorMessage;
             }
 
-            // Evaluates each conditional with a given value.
+            // Evaluates each conditional against an input value.
             // If this.conditionals is not null and not empty,
             // and any conditional evaluates false,
             // outs this.errorMessage and returns false.

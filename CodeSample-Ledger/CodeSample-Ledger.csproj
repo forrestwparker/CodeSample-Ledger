@@ -56,8 +56,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomClasses\ConsoleMenu\Constants.cs" />
     <Compile Include="CustomClasses\ConsoleMenu\Constraint.cs" />
-    <Compile Include="CustomClasses\ConsoleMenu\MenuFormatting.cs" />
+    <Compile Include="CustomClasses\ConsoleMenu\DisplayMethods.cs" />
     <Compile Include="CustomClasses\ConsoleMenu\UserResponseProcessing.cs" />
     <Compile Include="Controllers\AccountActions.cs" />
     <Compile Include="Controllers\TransactionActions.cs" />
