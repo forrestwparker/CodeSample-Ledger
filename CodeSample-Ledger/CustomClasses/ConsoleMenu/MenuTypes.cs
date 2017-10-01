@@ -1,13 +1,13 @@
 ﻿using System;
 using static System.Console;
 
-namespace CodeSample_Ledger.ConsoleMenu
+namespace CodeSample_Ledger.Menus
 {
     // This class provides all the menu functionality used by the ledger.
     // There are three categories of methods:
     // - Menu methods
     // - (private) menu formatting methods
-    // - User response processing and return type methods
+    // - User response processing
 
     public static partial class ConsoleMenu
     {       
@@ -17,21 +17,21 @@ namespace CodeSample_Ledger.ConsoleMenu
 
         // Creates a prompt and returns a double
         // from the same line subject to the given constraints.
-        public static double Prompt(string query, Constraint<double>[] constraints)
+        public static double PromptDouble(string query, Constraint<double>[] constraints)
         {
             return DisplayPrompt(query, constraints, Write, Double.TryParse);
         }
 
         // Creates a prompt and returns an int
         // from the same line subject to the given constraints.
-        public static int Prompt(string query, Constraint<int>[] constraints)
+        public static int PromptInt(string query, Constraint<int>[] constraints)
         {
             return DisplayPrompt(query, constraints, Write, Int32.TryParse);
         }
 
         // Creates a prompt and returns a string
         // from the same line subject to the given constraints.
-        public static string Prompt(string query, Constraint<string>[] constraints)
+        public static string PromptString(string query, Constraint<string>[] constraints)
         {
             return DisplayPrompt(query, constraints, Write, DummyStringTryParse);
         }
@@ -42,21 +42,21 @@ namespace CodeSample_Ledger.ConsoleMenu
 
         // Creates a prompt and returns a double
         // from the same line subject to the given constraints.
-        public static double PromptLine(string query, Constraint<double>[] constraints)
+        public static double PromptLineDouble(string query, Constraint<double>[] constraints)
         {
             return DisplayPrompt(query, constraints, WriteLine, Double.TryParse);
         }
 
         // Creates a prompt and returns an int
         // from the same line subject to the given constraints.
-        public static int PromptLine(string query, Constraint<int>[] constraints)
+        public static int PromptLineInt(string query, Constraint<int>[] constraints)
         {
             return DisplayPrompt(query, constraints, WriteLine, Int32.TryParse);
         }
 
         // Creates a prompt and returns a string
         // from the same line subject to the given constraints.
-        public static string PromptLine(string query, Constraint<string>[] constraints)
+        public static string PromptLineString(string query, Constraint<string>[] constraints)
         {
             return DisplayPrompt(query, constraints, WriteLine, DummyStringTryParse);
         }
@@ -96,7 +96,7 @@ namespace CodeSample_Ledger.ConsoleMenu
         // Creates a menu of options that:
         // - Has a title; and
         // - Returns an int of the user's response from the next line after the prompt.
-        public static int ChoicesPromptLine(string title, string[] options, string query)
+        public static int ChoicePromptLine(string title, string[] options, string query)
         {
             return DisplayChoicePrompt(title, options, query, WriteLine);
         }

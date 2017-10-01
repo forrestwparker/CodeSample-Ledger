@@ -1,9 +1,5 @@
-﻿using CodeSample_Ledger.Controllers;
+﻿using CodeSample_Ledger.Menus;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeSample_Ledger
 {
@@ -11,7 +7,15 @@ namespace CodeSample_Ledger
     {
         static void Main(string[] args)
         {
-            AccountActions.MainMenu();
+            var opts = new string[20];
+            for (var i = 0; i < opts.Length; i++)
+            {
+                opts[i] = String.Format("option {0}", i+1);
+            }
+            ConsoleMenu.ChoicePrompt(
+                "Title of Menu",
+                opts,
+                "Choose an option: ");
             Console.WriteLine("Have a good day!");
         }
     }

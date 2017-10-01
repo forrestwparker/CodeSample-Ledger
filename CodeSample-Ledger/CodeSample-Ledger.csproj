@@ -60,12 +60,7 @@
     <Compile Include="CustomClasses\ConsoleMenu\Constraint.cs" />
     <Compile Include="CustomClasses\ConsoleMenu\DisplayMethods.cs" />
     <Compile Include="CustomClasses\ConsoleMenu\UserResponseProcessing.cs" />
-    <Compile Include="Controllers\AccountActions.cs" />
-    <Compile Include="Controllers\TransactionActions.cs" />
-    <Compile Include="DbContext\LedgerContext.cs" />
     <Compile Include="CustomClasses\Extensions\Extensions.cs" />
-    <Compile Include="Models\Account.cs" />
-    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CustomClasses\ConsoleMenu\MenuTypes.cs" />

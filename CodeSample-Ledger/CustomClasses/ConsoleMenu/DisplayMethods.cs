@@ -1,7 +1,7 @@
 ﻿using System;
 using static System.Console;
 
-namespace CodeSample_Ledger.ConsoleMenu
+namespace CodeSample_Ledger.Menus
 {
     public static partial class ConsoleMenu
     {
@@ -19,10 +19,9 @@ namespace CodeSample_Ledger.ConsoleMenu
         {
             if (!String.IsNullOrEmpty(title))
             {
-                Write("{0}\n{1}",
+                WriteLine("{0}\n{1}",
                     title,
                     new String('-', title.Length));
-                WriteLine();
             }
         }
 
@@ -39,10 +38,10 @@ namespace CodeSample_Ledger.ConsoleMenu
             for (int i = 0; i < options.Length; i++)
             {
                 // Mathematically, leadingSpaces will always be non-negative.
-                int leadingSpaces = maxLeadingSpaces - (int)Math.Log10(i);
+                int leadingSpaces = maxLeadingSpaces - (int)Math.Log10(i+1);
                 WriteLine("{0}{1}) {2}",
                     new String(' ', leadingSpaces),
-                    i,
+                    i+1,
                     options[i]);
             }
             WriteLine();
@@ -72,11 +71,11 @@ namespace CodeSample_Ledger.ConsoleMenu
                     )
                 )
             {
-                WriteLine();
                 WriteLine("Error: {0}", errorMessage);
                 WriteLine();
                 displayAction(query);
             }
+            WriteLine();
             return typedUserResponse;
         }
 

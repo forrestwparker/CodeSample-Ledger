@@ -1,7 +1,7 @@
 ﻿using CodeSample_Ledger.Extensions;
 using System;
 
-namespace CodeSample_Ledger.ConsoleMenu
+namespace CodeSample_Ledger.Menus
 {
     public static partial class ConsoleMenu
     {
@@ -29,7 +29,7 @@ namespace CodeSample_Ledger.ConsoleMenu
                     {
                         if (!condition(value))
                         {
-                            errorMessage = this.errorMessage;
+                            errorMessage = this.errorMessage ?? defaultNullOrEmptyConstraintErrorMessage;
                             return false;
                         }
                     }

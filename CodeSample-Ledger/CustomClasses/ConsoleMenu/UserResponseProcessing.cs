@@ -1,6 +1,6 @@
 ﻿using CodeSample_Ledger.Extensions;
 
-namespace CodeSample_Ledger.ConsoleMenu
+namespace CodeSample_Ledger.Menus
 {
     public static partial class ConsoleMenu
     {
