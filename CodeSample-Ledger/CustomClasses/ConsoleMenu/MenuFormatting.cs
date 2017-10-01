@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeSample_Ledger.ConsoleMenus
+namespace CodeSample_Ledger.ConsoleMenu
 {
     public static partial class ConsoleMenu
     {
@@ -12,13 +12,13 @@ namespace CodeSample_Ledger.ConsoleMenus
         // E.g.
         // Title of menu
         // -------------
-        private static void WriteTitle(string Title)
+        private static void WriteTitle(string title)
         {
-            if (!String.IsNullOrEmpty(Title))
+            if (!String.IsNullOrEmpty(title))
             {
                 Console.WriteLine("{0}\n{1}",
-                    Title,
-                    new String('-', Title.Length));
+                    title,
+                    new String('-', title.Length));
                 Console.WriteLine();
             }
         }
@@ -30,47 +30,51 @@ namespace CodeSample_Ledger.ConsoleMenus
         //  ...
         //  9) Option 9
         // 10) Option 10
-        private static void WriteChoices(string[] Choices)
+        private static void WriteOptions(string[] options)
         {
-            int MaxLeadingSpaces = (int)Math.Log10((double)Choices.Length);
-            for (int i = 0; i < Choices.Length; i++)
+            int maxLeadingSpaces = (int)Math.Log10((double)options.Length);
+            for (int i = 0; i < options.Length; i++)
             {
-                int LeadingSpaces = MaxLeadingSpaces - (int)Math.Log10((double)i);
+                int leadingSpaces = maxLeadingSpaces - (int)Math.Log10((double)i);
                 Console.WriteLine("{0}{1}) {2}",
-                    new String(' ', LeadingSpaces),
+                    new String(' ', leadingSpaces),
                     i,
-                    Choices[i]);
+                    options[i]);
             }
             Console.WriteLine();
         }
 
         // Writes a prompt and returns user input.
         // UI varies by function passed to WriteAction.
-        private static void WritePrompt<T>(
-            string Query,
-            Action<string> WriteAction,
-            Func<T, bool>[] Constraints,
-            out T TypedUserResponse
+        private static T WritePrompt<T>(
+            string query,
+            Constraint<T>[] constraints,
+            Action<string> writeAction
             )
         {
-            WriteAction(Query);
+            writeAction(query);
             Console.ReadLine();
         }
 
         // Writes a choice menu and returns user input.
         // UI varies by function passed to WriteAction.
-        private static void WriteChoiceMenu(
-            string Title,
-            string[] Options,
-            string Query,
-            Action<string> WriteAction,
-            out int TypedUserResponse
+        private static int WriteChoiceMenu(
+            string title,
+            string[] options,
+            string query,
+            Action<string> writeAction
             )
         {
-            var Constraints = new Func<int, bool>[2] { x => x >= 1, x => x <= Options.Length };
-            WriteTitle(Title);
-            WriteChoices(Options);
-            WritePrompt(Query, WriteAction, Constraints, out TypedUserResponse);
+            var constraints = new Constraint<int>[1];
+            constraints[0] = new Constraint<int>(
+                new Func<int, bool>[2] {
+                    x => x >= 1,
+                    x => x <= options.Length},
+                String.Format("Please enter an integer between 1 and {0}.", options.Length)
+                );
+            WriteTitle(title);
+            WriteOptions(options);
+            return WritePrompt(query, constraints, writeAction);
         }
     }
 }
