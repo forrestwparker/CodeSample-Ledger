@@ -1,4 +1,5 @@
-﻿using CodeSample_Ledger.Menus;
+﻿using CodeSample_Ledger.ConsoleUI;
+using CodeSample_Ledger.Controllers;
 using System;
 
 namespace CodeSample_Ledger
@@ -7,16 +8,7 @@ namespace CodeSample_Ledger
     {
         static void Main(string[] args)
         {
-            var opts = new string[20];
-            for (var i = 0; i < opts.Length; i++)
-            {
-                opts[i] = String.Format("option {0}", i+1);
-            }
-            ConsoleMenu.ChoicePrompt(
-                "Title of Menu",
-                opts,
-                "Choose an option: ");
-            Console.WriteLine("Have a good day!");
+            LoginController.Run();
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeSample_Ledger.Controllers
+namespace CodeSample_Ledger.DAL
 {
     public static class TransactionActions
     {

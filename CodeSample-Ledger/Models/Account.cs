@@ -10,9 +10,10 @@ namespace CodeSample_Ledger.Models
     public class Account
     {
         [Key]
-        public int AccountId { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public int accountId { get; set; }
+        public string username { get; set; }
+        public string passwordHash { get; set; }
+        public string passwordSalt { get; set; }
 
         // There may be many transactions associated with each account.
         // Load these transactions only when necessary.

@@ -56,14 +56,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomClasses\ConsoleMenu\Constants.cs" />
-    <Compile Include="CustomClasses\ConsoleMenu\Constraint.cs" />
-    <Compile Include="CustomClasses\ConsoleMenu\DisplayMethods.cs" />
-    <Compile Include="CustomClasses\ConsoleMenu\UserResponseProcessing.cs" />
-    <Compile Include="CustomClasses\Extensions\Extensions.cs" />
+    <Compile Include="ConsoleUI\Constraint.cs" />
+    <Compile Include="ConsoleUI\Menu.cs" />
+    <Compile Include="ConsoleUI\Prompt.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="DAL\AccountActions.cs" />
+    <Compile Include="DAL\TransactionActions.cs" />
+    <Compile Include="DbContext\LedgerContext.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CustomClasses\ConsoleMenu\MenuTypes.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
