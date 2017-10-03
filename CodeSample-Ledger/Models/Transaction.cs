@@ -20,6 +20,7 @@ namespace CodeSample_Ledger.Models
         public double DollarAmount { get; set; }
         public TransactionType Type { get; set; }
         
+        // Enum for tracking each transaction type
         public enum TransactionType { Deposit, Withdrawal }
     }
 }

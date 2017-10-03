@@ -13,8 +13,8 @@ namespace CodeSample_Ledger.DAL
         {
             using (var db = new LedgerContext())
             {
-                account = default(Account);
-                return true;
+                account = null;
+                return false;
             }
         }
 

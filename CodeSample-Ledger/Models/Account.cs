@@ -14,6 +14,8 @@ namespace CodeSample_Ledger.Models
         public string username { get; set; }
         public string passwordHash { get; set; }
         public string passwordSalt { get; set; }
+        public DateTime lastLogin { get; set; }
+        public DateTime failedLoginAttempts { get; set; }
 
         // There may be many transactions associated with each account.
         // Load these transactions only when necessary.

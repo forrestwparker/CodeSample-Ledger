@@ -57,6 +57,7 @@ namespace CodeSample_Ledger.Controllers
             {
                 Console.WriteLine("The given username/password combination is not correct.");
                 Console.WriteLine("If you have forgotten your password, please contact us to verify your identity.");
+                Console.WriteLine();
                 Console.Write("Press Enter to continue...");
                 Console.ReadLine();
             }
