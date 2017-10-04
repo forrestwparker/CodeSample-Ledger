@@ -5,20 +5,22 @@ using System;
 
 namespace CodeSample_Ledger.Controllers
 {
-    public static class LoginController
+    public class LoginController
     {
-        public static void Run()
-        {
-            // Configure main menu
-            var mainMenu = new Menu();
-            mainMenu.title = "Main Menu";
-            mainMenu.options = new string[]
-            {
-                "Log in",
-                "Create account",
-                "Quit"
-            };
+        //
+        // Class properties
+        //
 
+        // Main menu
+        // Configured in default constructor
+        private readonly Menu mainMenu = new Menu();
+        
+        private const string failedLoginErrorMessage = "The given username/password combination is not correct.";
+        private const string passwordResetMessage = "If you have forgotten your password, please contact us to verify your identity.";
+
+
+        public void Run()
+        {
             // Show main menu and do appropriate
             // action based on user selection.
             int selection;
@@ -26,7 +28,6 @@ namespace CodeSample_Ledger.Controllers
             {
                 Console.Clear();
                 selection = mainMenu.Show();
-                Console.WriteLine();
                 switch (selection)
                 {
                     case 1:
@@ -41,31 +42,48 @@ namespace CodeSample_Ledger.Controllers
             } while (selection < mainMenu.options.Length);
         }
 
-        private static void AttemptLogin()
+        private void AttemptLogin()
         {
+            Console.WriteLine("User Login");
             var prompt = new Prompt<string>();
-            prompt.text = "Username: ";
+            prompt.promptText = "Username: ";
             string username = prompt.Show();
-            prompt.text = "Password: ";
+            prompt.promptText = "Password: ";
             string password = prompt.Show();
             Account account;
             if (AccountActions.Login(username, password, out account))
             {
-                AccountController.Run(account);
+                new AccountController(account).Run();
             }
             else
             {
-                Console.WriteLine("The given username/password combination is not correct.");
-                Console.WriteLine("If you have forgotten your password, please contact us to verify your identity.");
+                Console.WriteLine(failedLoginErrorMessage);
+                Console.WriteLine(passwordResetMessage);
                 Console.WriteLine();
                 Console.Write("Press Enter to continue...");
                 Console.ReadLine();
             }
         }
 
-        private static void AttemptCreateAccount()
+        private void AttemptCreateAccount()
         {
             //var 
+        }
+
+        //
+        // Class constructors
+        //
+
+        public LoginController()
+        {
+            // Set main menu
+            mainMenu.title = "Main Menu";
+            mainMenu.options = new string[]
+            {
+                "Log in",
+                "Create account",
+                "Quit"
+            };
         }
     }
 }

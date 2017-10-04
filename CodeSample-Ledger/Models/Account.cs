@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeSample_Ledger.Models
 {
@@ -12,10 +8,9 @@ namespace CodeSample_Ledger.Models
         [Key]
         public int accountId { get; set; }
         public string username { get; set; }
-        public string passwordHash { get; set; }
         public string passwordSalt { get; set; }
-        public DateTime lastLogin { get; set; }
-        public DateTime failedLoginAttempts { get; set; }
+        public string passwordHash { get; set; }
+        public decimal balance { get; set; }
 
         // There may be many transactions associated with each account.
         // Load these transactions only when necessary.

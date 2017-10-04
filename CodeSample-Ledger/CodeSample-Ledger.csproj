@@ -59,13 +59,6 @@
     <Compile Include="ConsoleUI\Constraint.cs" />
     <Compile Include="ConsoleUI\Menu.cs" />
     <Compile Include="ConsoleUI\Prompt.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\LoginController.cs" />
-    <Compile Include="DAL\AccountActions.cs" />
-    <Compile Include="DAL\TransactionActions.cs" />
-    <Compile Include="DbContext\LedgerContext.cs" />
-    <Compile Include="Models\Account.cs" />
-    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
