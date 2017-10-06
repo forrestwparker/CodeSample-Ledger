@@ -1,6 +1,4 @@
-﻿using CodeSample_Ledger.ConsoleUI;
-using CodeSample_Ledger.Controllers;
-using System;
+﻿using CodeSample_Ledger.Controllers;
 
 namespace CodeSample_Ledger
 {
@@ -8,6 +6,8 @@ namespace CodeSample_Ledger
     {
         static void Main(string[] args)
         {
+            // LoginController handles all functionality of
+            // creating accounts and logging in.
             new LoginController().Run();
         }
     }

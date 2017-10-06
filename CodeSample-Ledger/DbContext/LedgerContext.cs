@@ -18,7 +18,7 @@ namespace CodeSample_Ledger
 
         // This code sample uses the Effort.EF6 NuGet package to simulate a real database.
         // This class property creates the "real" database, but would not exist in a real project.
-        // Unit tests would use their own temporary databases.
+        // Unit tests use their own temporary databases.
         public static DbConnection DbConn = Effort.DbConnectionFactory.CreatePersistent("RealDB");
 
         //

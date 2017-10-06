@@ -1,13 +1,11 @@
 ﻿using CodeSample_Ledger.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static CodeSample_Ledger.Models.Transaction;
 
 namespace CodeSample_Ledger.DAL
 {
+    // Provides all functionality for transaction creation and retrieval in the database.
     public static class TransactionAccess
     {
         // Makes a transaction.

@@ -49,7 +49,7 @@ namespace CodeSample_Ledger.Controllers
             menu.title = "Account Menu";
             menu.AddMenuOption("Make a deposit", TryDeposit);
             menu.AddMenuOption("Make a withdrawal", TryWithdrawal);
-            menu.AddMenuOption("See transaction history", SeeTransactionHistory);
+            menu.AddMenuOption("See transaction history", ShowTransactionHistory);
             menu.AddMenuOption("Log Out", null);
             return menu;
         }
@@ -70,21 +70,23 @@ namespace CodeSample_Ledger.Controllers
         private void SetTransactionPromptConstraints(Prompt<decimal> prompt, string typeOfTransaction)
         {
             var constraints = new Constraint<decimal>[3];
+            // Must be non-negative amount.
             constraints[0] = new Constraint<decimal>();
             constraints[0].AddConditional(x => x >= 0);
             constraints[0].constraintFailureErrorMessage = 
                 String.Format("Amount of {0} must be non-negative.",
                               typeOfTransaction.ToLower());
+            // Must not include fractions of a cent.
             constraints[1] = new Constraint<decimal>();
             constraints[1].AddConditional(x => ValidDollarAmount(x));
             constraints[1].constraintFailureErrorMessage = 
                 String.Format("Amount of {0} cannot include a fraction of a cent.",
                               typeOfTransaction.ToLower());
-            constraints[2] = new Constraint<decimal>();
             // $1,000,000,000,000,000 seems like a good maximum value to allow on transactions.
+            constraints[2] = new Constraint<decimal>();
             constraints[2].AddConditional(x => x <= (decimal)Math.Pow(10, 15));
             constraints[2].constraintFailureErrorMessage = 
-                String.Format("Amount of {0} cannot exceed $1,000,000,000,000,000.",
+                String.Format("Transactions exceeding $1,000,000,000,000,000 must be made in person.",
                               typeOfTransaction.ToLower());
             prompt.AddConstraint(constraints);
         }
@@ -99,6 +101,8 @@ namespace CodeSample_Ledger.Controllers
             prompt.allowBlankResponse = true;
             SetTransactionPromptConstraints(prompt, "deposit");
             decimal amount = prompt.Show();
+            // If amount entered is non-zero, make deposit.
+            // Otherwise, cancel and go back to menu.
             if (amount != default(decimal)) {
                 TransactionAccess.MakeTransaction(account, amount, TransactionType.Deposit);
                 Console.WriteLine("Deposit complete.");
@@ -119,13 +123,17 @@ namespace CodeSample_Ledger.Controllers
             var prompt = new Prompt<decimal>();
             prompt.text = "$";
             prompt.allowBlankResponse = true;
+            prompt.tryParser = Decimal.TryParse;
             SetTransactionPromptConstraints(prompt, "withdrawal");
+            // Amount withdrawn must not exceed current account balance.
             var maxWithdrawalConstraint = new Constraint<decimal>();
             maxWithdrawalConstraint.AddConditional(x => x <= account.balance);
             maxWithdrawalConstraint.constraintFailureErrorMessage =
                 "You may only withdraw an amount up to your account balance.";
             prompt.AddConstraint(maxWithdrawalConstraint);
             decimal amount = prompt.Show();
+            // If amount entered is non-zero, make withdrawal.
+            // Otherwise, cancel and go back to menu.
             if (amount != default(decimal))
             {
                 TransactionAccess.MakeTransaction(account, amount, TransactionType.Withdrawal);
@@ -139,8 +147,8 @@ namespace CodeSample_Ledger.Controllers
             }
         }
 
-        // Displays transaction history.
-        private void SeeTransactionHistory()
+        // Shows transaction history.
+        private void ShowTransactionHistory()
         {
             var transactions = TransactionAccess.GetTransactions(account);
             ShowTransactionList(transactions);
@@ -152,10 +160,12 @@ namespace CodeSample_Ledger.Controllers
         {
             decimal integral = Math.Truncate(x);
             var fraction = x - integral;
-            return fraction == Math.Truncate(100 * fraction);
+            return 100 * fraction == Math.Truncate(100 * fraction);
         }
 
-        // Displays all transactions associated with an account.
+        // Formats display of transaction history.
+        // Transactions appear in groups of 10 in reverse
+        // chronological order.
         private void ShowTransactionList(List<Transaction> transactions)
         {
             if (transactions.Count == 0)

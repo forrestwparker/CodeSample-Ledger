@@ -10,9 +10,12 @@ namespace CodeSample_Ledger.ConsoleUI
         // Class constructors
         //
 
+        // Default constructor.
         public Menu()
         {
             prompt.text = defaultPromptText;
+            // Return from prompt is Int32,
+            // so uses the Int32.TryParse function.
             prompt.tryParser = Int32.TryParse;
         }
 
@@ -31,6 +34,7 @@ namespace CodeSample_Ledger.ConsoleUI
         private int previousNumberOfOptions = default(int);
 
         // User prompt.
+        // Coder permitted to change the prompt text and how it displays.
         private readonly Prompt<int> prompt = new Prompt<int>();
         public string promptText
         {
@@ -43,7 +47,7 @@ namespace CodeSample_Ledger.ConsoleUI
             set { prompt.displayAction = value; }
         }
 
-        // Default promptText
+        // Default promptText for menus.
         private const string defaultPromptText = "Choose an option: ";
 
         // Constraint failure error message.
@@ -169,6 +173,9 @@ namespace CodeSample_Ledger.ConsoleUI
             Console.WriteLine();
         }
 
+        // Sets up prompt constraint.
+        // Only allows valid integer responses.
+        // i.e. 1 through the number of options.
         private void SetPromptConstraint()
         {
             var constraint = new Constraint<int>();

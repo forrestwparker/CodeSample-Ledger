@@ -10,6 +10,7 @@ namespace CodeSample_Ledger.ConsoleUI
         // Class constructors
         //
 
+        // Default constructor.
         public Constraint() { }
 
         //

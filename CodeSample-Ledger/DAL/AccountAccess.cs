@@ -32,7 +32,7 @@ namespace CodeSample_Ledger.DAL
         // Verifies the given password of the associated account.
         private static bool VerifyPassword(Account account, string password)
         {
-            var hashing = new Hashing(account.passwordSalt);
+            var hashing = new PasswordHasher(account.passwordSalt);
             return hashing.MakeHash(password).SequenceEqual(account.passwordHash);
         }
 
@@ -53,7 +53,7 @@ namespace CodeSample_Ledger.DAL
             using (var db = new LedgerContext())
             {
                 var account = new Account();
-                var hashing = new Hashing();
+                var hashing = new PasswordHasher();
                 account.accountId = db.Accounts.Count();
                 account.username = username;
                 account.passwordSalt = hashing.salt;

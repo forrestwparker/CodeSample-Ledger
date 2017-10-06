@@ -11,16 +11,17 @@ namespace CodeSample_Ledger.Crypto
     // The storage for hashkey and the hashing functionality should be
     // provided by dedicated hardware, but that isn't an option in this
     // code sample.
-    public sealed class Hashing
+    public sealed class PasswordHasher
     {
         //
         // Class constructors
         //
 
         // Default constructor
-        public Hashing() { }
+        public PasswordHasher() { }
 
-        public Hashing(byte[] salt)
+        // Constructor for use with 
+        public PasswordHasher(byte[] salt)
         {
             this.salt = salt;
         }
@@ -30,7 +31,10 @@ namespace CodeSample_Ledger.Crypto
         //
 
         // Secret key used for hashing passwords.
-        // In practice, should be longer and random.
+        // In practice, should be longer, random
+        // and hashing should be performed on dedicated
+        // hardware on which the hashkey is not directly
+        // accessible by the computer.
         private static readonly byte[] hashkey = new byte[]
             { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
 
@@ -41,7 +45,7 @@ namespace CodeSample_Ledger.Crypto
         // Class methods
         //
 
-        // Makes salt.
+        // Makes NaCl.
         private static byte[] MakeSalt()
         {
             var rng = new RNGCryptoServiceProvider();
@@ -52,6 +56,7 @@ namespace CodeSample_Ledger.Crypto
 
         // Creates hash from password (as string) using random salt.
         // Uses HMACSHA256.
+        // A slower hashing function would be more suitable in practice.
         public byte[] MakeHash(string password)
         {
             byte[] passwordbytes = Encoding.ASCII.GetBytes(password);
