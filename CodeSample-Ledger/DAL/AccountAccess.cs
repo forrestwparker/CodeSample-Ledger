@@ -37,7 +37,7 @@ namespace CodeSample_Ledger.DAL
         }
 
         // Determines if an account exists with the given username.
-        public static bool UsernameExists(string username)
+        public static bool CheckUsernameExists(string username)
         {
             using (var db = new LedgerContext())
             {

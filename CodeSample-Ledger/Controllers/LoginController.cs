@@ -181,7 +181,7 @@ namespace CodeSample_Ledger.Controllers
             do
             {
                 username = PromptUsername();
-                usernameExists = AccountAccess.UsernameExists(username);
+                usernameExists = AccountAccess.CheckUsernameExists(username);
                 if (usernameExists)
                 {
                     Console.WriteLine(usernameExistsErrorMessage);
