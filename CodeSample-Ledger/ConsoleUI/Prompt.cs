@@ -4,6 +4,7 @@ using System.ComponentModel;
 
 namespace CodeSample_Ledger.ConsoleUI
 {
+    // Provides simple prompt UI.
     public class Prompt<T>
     {
         //
@@ -16,7 +17,7 @@ namespace CodeSample_Ledger.ConsoleUI
         // Useful when a simple user prompt without constraints is needed.
         public Prompt(string text, bool allowBlankResponse = false)
         {
-            this.promptText = text;
+            this.text = text;
             this.allowBlankResponse = allowBlankResponse;
         }
 
@@ -27,7 +28,7 @@ namespace CodeSample_Ledger.ConsoleUI
         // Text to show when prompting a user for a response.
         // Cannot be null or empty.
         private string _promptText = defaultText;
-        public string promptText
+        public string text
         {
             get { return _promptText; }
             set { _promptText = !String.IsNullOrEmpty(value) ? value : defaultText; }
@@ -88,12 +89,25 @@ namespace CodeSample_Ledger.ConsoleUI
         //
 
         // Add a constraint.
-        // Prevents null constraints.
+        // Prevents null constraints from being added.
         public void AddConstraint(Constraint<T> constraint)
         {
             if (constraint != null)
             {
                 constraints.Add(constraint);
+            }
+        }
+
+        // Add an array of constraints.
+        // Prevents null constraints from being added.
+        public void AddConstraint(Constraint<T>[] constraints)
+        {
+            for (var i = 0; i < constraints.Length; i++)
+            {
+                if (constraints[i] != null)
+                {
+                    this.constraints.Add(constraints[i]);
+                }
             }
         }
 
@@ -143,7 +157,7 @@ namespace CodeSample_Ledger.ConsoleUI
             // Repeat prompt until a valid response has been given.
             do
             {
-                displayAction(promptText);
+                displayAction(text);
             }
             while (!GetValidTypedUserResponse(out typedUserResponse, out blankUserResponse));
             return typedUserResponse;

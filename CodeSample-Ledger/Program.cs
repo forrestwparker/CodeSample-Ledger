@@ -1,5 +1,5 @@
 ﻿using CodeSample_Ledger.ConsoleUI;
-//using CodeSample_Ledger.Controllers;
+using CodeSample_Ledger.Controllers;
 using System;
 
 namespace CodeSample_Ledger
@@ -8,7 +8,7 @@ namespace CodeSample_Ledger
     {
         static void Main(string[] args)
         {
-            //LoginController.Run();
+            new LoginController().Run();
         }
     }
 }

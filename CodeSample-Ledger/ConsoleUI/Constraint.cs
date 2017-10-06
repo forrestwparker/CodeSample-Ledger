@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace CodeSample_Ledger.ConsoleUI
 {
+    // Used to provide constraints to prompts.
     public class Constraint<T>
     {
         //

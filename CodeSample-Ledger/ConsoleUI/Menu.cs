@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace CodeSample_Ledger.ConsoleUI
 {
+    // Provides simple menu UI.
     public class Menu
     {
         //
@@ -11,7 +12,7 @@ namespace CodeSample_Ledger.ConsoleUI
 
         public Menu()
         {
-            prompt.promptText = defaultPromptText;
+            prompt.text = defaultPromptText;
             prompt.tryParser = Int32.TryParse;
         }
 
@@ -33,8 +34,8 @@ namespace CodeSample_Ledger.ConsoleUI
         private readonly Prompt<int> prompt = new Prompt<int>();
         public string promptText
         {
-            get { return prompt.promptText; }
-            set { prompt.promptText = value ?? defaultPromptText; }
+            get { return prompt.text; }
+            set { prompt.text = value ?? defaultPromptText; }
         }
         public Action<string> promptDisplayAction
         {

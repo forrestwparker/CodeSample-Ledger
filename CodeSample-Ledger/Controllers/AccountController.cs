@@ -1,86 +1,138 @@
 ﻿using CodeSample_Ledger.ConsoleUI;
 using CodeSample_Ledger.Models;
+using CodeSample_Ledger.DAL;
 using System;
 
 namespace CodeSample_Ledger.Controllers
 {
+    // Provdes UI and functionality for making transactions with an authenticated account.
     public class AccountController
     {
+        //
+        // Class constructors
+        //
+
+        // Cannot be instantiated with a default constructor.
+        private AccountController()
+        {
+            mainMenu = ConfigureMainMenu();
+        }
+
+        // Only constructor for instantiation.
+        public AccountController(Account account) : this()
+        {
+            this.account = account;
+        }
+
         //
         // Class properties
         //
         
-        private Account account;
+        // Main menu.
+        private readonly Menu mainMenu;
 
-        private Menu mainMenu = new Menu();
+        // Associated verified account.
+        private readonly Account account;
 
         //
         // Class methods
         //
 
-        public void Run(Account account)
+        // Configures the main menu.
+        // Called by default constructor.
+        private Menu ConfigureMainMenu()
         {
-            int selection;
+            var menu = new Menu();
+            menu.title = "Account Menu";
+            menu.AddMenuOption("Make a deposit", TryDeposit);
+            menu.AddMenuOption("Make a withdrawal", TryWithdrawal);
+            menu.AddMenuOption("See transaction history", SeeTransactionHistory);
+            menu.AddMenuOption("Log Out", null);
+            return menu;
+        }
+
+        // Runs controller.
+        public void Run()
+        {
             do
             {
                 Console.Clear();
-                Console.WriteLine("User: {0}", account.username);
-                Console.WriteLine("Balance: {0}", account.balance);
+                Console.WriteLine("Account: {0}", account.username);
+                Console.WriteLine("Balance: ${0}", account.balance);
                 Console.WriteLine();
-                selection = mainMenu.Show();
-                switch (selection)
-                {
-                    case 1:
-                        MakeDeposit();
-                        break;
-                    case 2:
-                        MakeWithdrawal();
-                        break;
-                    default:
-                        break;
-                }
-            } while (selection < mainMenu.options.Length);
+            } while (mainMenu.Show() < mainMenu.numberOfOptions);
         }
 
-        private void MakeDeposit()
+        // Sets transaction constriants on prompts.
+        private void SetTransactionPromptConstraints(Prompt<decimal> prompt, string typeOfTransaction)
         {
-            var prompt = new Prompt<double>();
-            prompt.displayAction = Console.WriteLine;
-            prompt.promptText = "How much are you depositing?\n"+
-                          "(Enter $0 to cancel)\n"+
-                          "$";
-            prompt.constraints = new Constraint<double>[2];
-            prompt.constraints[0] = new Constraint<double>(1);
-            prompt.constraints[0].conditionals[0] = x => x < 0;
-            prompt.constraints[0].constraintFailureErrorMessage = "Dollar mount must be non-negative.";
-            prompt.constraints[1] = new Constraint<double>(1);
-            prompt.constraints[1].conditionals[1] = x => 
+            var constraints = new Constraint<decimal>[3];
+            constraints[0] = new Constraint<decimal>();
+            constraints[0].AddConditional(x => x >= 0);
+            constraints[0].constraintFailureErrorMessage = 
+                String.Format("Amount of {0} must be non-negative.",
+                              typeOfTransaction.ToLower());
+            constraints[1] = new Constraint<decimal>();
+            constraints[1].AddConditional(x => ValidDollarAmount(x));
+            constraints[1].constraintFailureErrorMessage = 
+                String.Format("Amount of {0} cannot include a fraction of a cent.",
+                              typeOfTransaction.ToLower());
+            constraints[2] = new Constraint<decimal>();
+            // $1,000,000,000,000,000 seems like a good maximum value to allow on transactions.
+            constraints[2].AddConditional(x => x <= (decimal)Math.Pow(10, 15));
+            constraints[2].constraintFailureErrorMessage = 
+                String.Format("Amount of {0} cannot exceed $1,000,000,000,000,000.",
+                              typeOfTransaction.ToLower());
+            prompt.AddConstraint(constraints);
         }
 
-        private void MakeWithdrawal()
+        // Attempts to make a deposit.
+        private void TryDeposit()
         {
-
-        }
-
-        //
-        // Class constructors
-        //
-
-        private AccountController()
-        {
-            mainMenu.title = "Account Menu";
-            mainMenu.options = new string[]
+            Console.WriteLine("How much would you like to deposit?");
+            Console.WriteLine("Enter a blank or zero amount to cancel.");
+            var prompt = new Prompt<decimal>();
+            prompt.text = "$";
+            prompt.allowBlankResponse = true;
+            SetTransactionPromptConstraints(prompt, "deposit");
+            decimal amount = prompt.Show();
+            if (amount != default(decimal)) {
+                TransactionAccess.Deposit(account, amount);
+                Console.WriteLine("Deposit complete.");
+                PressEnter();
+            }
+            else
             {
-                "Make a deposit",
-                "Make a withdrawal",
-                "Log out"
-            };
+                Console.WriteLine("Deposit cancelled.");
+                PressEnter();
+            }
+        }
+
+        // Attempts to make a withdrawal.
+        private void TryWithdrawal()
+        {
+        }
+
+        // Displays transaction history.
+        private void SeeTransactionHistory()
+        {
 
         }
 
-        public AccountController(Account account) : this()
+        // Checks that the user entered in a valid amount of money.
+        // I.e. No more than two decimal places.
+        private bool ValidDollarAmount(decimal x)
         {
-            this.account = account;
+            decimal integral = Math.Truncate(x);
+            var fraction = x - integral;
+            return fraction == (decimal)Math.Truncate(100 * fraction);
+        }
+
+        // Waits until user presses <Enter> key.
+        private void PressEnter()
+        {
+            Console.WriteLine("Press <Enter> to continue.");
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { }
         }
     }
 }

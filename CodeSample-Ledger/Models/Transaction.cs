@@ -11,7 +11,6 @@ namespace CodeSample_Ledger.Models
         // Foreign Key for Account
         public int AccountId { get; set; }
 
-        public DateTime Timestamp { get; set; }
         public TransactionType Type { get; set; }
         public decimal DollarAmount { get; set; }
         

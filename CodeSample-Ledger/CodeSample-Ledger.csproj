@@ -59,6 +59,14 @@
     <Compile Include="ConsoleUI\Constraint.cs" />
     <Compile Include="ConsoleUI\Menu.cs" />
     <Compile Include="ConsoleUI\Prompt.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Crypto\Hashing.cs" />
+    <Compile Include="DAL\AccountAccess.cs" />
+    <Compile Include="DAL\TransactionAccess.cs" />
+    <Compile Include="DbContext\LedgerContext.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -66,6 +74,8 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Thoughts.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
