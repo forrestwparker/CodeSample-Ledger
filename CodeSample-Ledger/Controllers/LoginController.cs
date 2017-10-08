@@ -1,4 +1,5 @@
 ﻿using CodeSample_Ledger.ConsoleUI;
+using static CodeSample_Ledger.ConsoleUI.ConsoleUI;
 using CodeSample_Ledger.DAL;
 using CodeSample_Ledger.Models;
 using System;
@@ -206,13 +207,6 @@ namespace CodeSample_Ledger.Controllers
                 Console.WriteLine("Account creation cancelled.");
                 PressEnter();
             }
-        }
-
-        // Waits until user presses <Enter> key.
-        private void PressEnter()
-        {
-            Console.WriteLine("Press <Enter> to continue.");
-            while (Console.ReadKey().Key != ConsoleKey.Enter) { }
         }
     }
 }

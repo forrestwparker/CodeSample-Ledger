@@ -1,4 +1,5 @@
 ﻿using CodeSample_Ledger.ConsoleUI;
+using static CodeSample_Ledger.ConsoleUI.ConsoleUI;
 using CodeSample_Ledger.Models;
 using CodeSample_Ledger.DAL;
 using System;
@@ -208,13 +209,6 @@ namespace CodeSample_Ledger.Controllers
                     Console.WriteLine();
                 }
             }
-        }
-
-        // Waits until user presses <Enter> key.
-        private void PressEnter()
-        {
-            Console.WriteLine("Press <Enter> to continue.");
-            while (Console.ReadKey().Key != ConsoleKey.Enter) { }
         }
     }
 }

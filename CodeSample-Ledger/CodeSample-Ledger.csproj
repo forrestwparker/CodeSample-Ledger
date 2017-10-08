@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleUI\ConsoleUI.cs" />
     <Compile Include="ConsoleUI\Constraint.cs" />
     <Compile Include="ConsoleUI\Menu.cs" />
     <Compile Include="ConsoleUI\Prompt.cs" />
